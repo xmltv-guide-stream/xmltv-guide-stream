@@ -2,6 +2,8 @@
 
 Old cable-style TV guide that ingests **XMLTV**, renders a scrolling guide (time across the top; channels scrolling vertically), and serves it as an **HLS stream** you can open in VLC or any HLS-capable player.
 
+![Alt text](images/guide.png)
+
 **Highlights**
 - Date + timezone shown in the **top-left header cell** (doesn’t overlap times).
 - **30‑minute time slots** across the header; ticks forward at each :00 and :30.
