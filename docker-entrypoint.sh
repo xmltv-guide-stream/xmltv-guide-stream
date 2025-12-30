@@ -11,6 +11,8 @@ set -e
 : "${XMLTV_BITRATE:=3000k}"
 : "${XMLTV_MAXRATE:=${XMLTV_BITRATE}}"
 : "${XMLTV_BUFSIZE:=6000k}"
+: "${XMLTV_THEME:=classic}"
+: "${XMLTV_THEME_FILE:=}"
 
 # Build args safely
 set -- python3 /xmltv_guide_stream.py \
@@ -23,6 +25,17 @@ set -- python3 /xmltv_guide_stream.py \
   --maxrate "$XMLTV_MAXRATE" \
   --bufsize "$XMLTV_BUFSIZE" \
   --font /usr/share/fonts/truetype/dejavu/DejaVuSans.ttf
+
+# Theme-file overrides theme if present
+if [ -n "$XMLTV_THEME_FILE" ]; then
+  if [ ! -f "$XMLTV_THEME_FILE" ]; then
+    echo "ERROR: XMLTV_THEME_FILE set but file not found: $XMLTV_THEME_FILE" >&2
+    exit 1
+  fi
+  set -- "$@" --theme-file "$XMLTV_THEME_FILE"
+else
+  set -- "$@" --theme "$XMLTV_THEME"
+fi
 
 case "$XMLTV_VCODEC" in
   h264_nvenc|hevc_nvenc)
